@@ -2,9 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.Hashtable;
 
-public class GUI {
+public class GUI implements Runnable {
+
     JFrame frame;
     Board board;
 
@@ -14,6 +16,12 @@ public class GUI {
     final int mouseButtonLeft = 1;
     final int mouseButtonRight = 3;
     final int frameSize = (boardSize + 1) * pointSize + 3;
+
+    @Override
+    public void run() {
+        createGUI();
+        System.out.println(SwingUtilities.isEventDispatchThread());
+    }
 
     public void createGUI() {
         frame = new JFrame("WireWorld");
@@ -57,16 +65,31 @@ public class GUI {
 
         board.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                int x = e.getX() / 10;
-                int y = e.getY() / 10;
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                int x = e.getX() / pointSize;
+                int y = e.getY() / pointSize;
                 if (e.getButton() == mouseButtonLeft) {
-                    if (tab[x][y] != 1)
+                    if (tab[x][y] != 1) {
                         tab[x][y] = 1;
+                            board.addMouseMotionListener(new MouseMotionAdapter() {
+                                @Override
+                                public void mouseDragged(MouseEvent e) {
+                                    super.mouseDragged(e);
+                                    int x = e.getX() / pointSize;
+                                    int y = e.getY() / pointSize;
+                                    try {
+                                        tab[x][y] = 1;
+                                        board.repaint();
+                                    } catch (ArrayIndexOutOfBoundsException ew) {
+                                        System.out.println("Out of board");
+                                    }
+                                }
+                            });
+                    }
                     else
                         tab[x][y] = 0;
-                }
+                    }
                 if (e.getButton() == mouseButtonRight) {
                     if (tab[x][y] != 2)
                         tab[x][y] = 2;
@@ -77,10 +100,12 @@ public class GUI {
             }
         });
 
+
         frame.getContentPane().add(BorderLayout.NORTH ,controlPanel);
         frame.getContentPane().add(BorderLayout.SOUTH, optFilePanel);
         frame.getContentPane().add(BorderLayout.CENTER, board);
 
     }
+
 
 }
