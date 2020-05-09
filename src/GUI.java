@@ -1,8 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.*;
 import java.util.Hashtable;
 
 public class GUI implements Runnable {
@@ -33,7 +31,8 @@ public class GUI implements Runnable {
 
     public void options() {
         JButton stepB = new JButton("Step");
-        JButton clearB = new JButton("Clear");
+        JButton clearB = new JButton(getClear());
+        clearB.addActionListener(new ButtonClear());
         JButton saveB = new JButton("Save");
         JButton loadB = new JButton("Load");
         JToggleButton playB = new JToggleButton("Play");
@@ -106,6 +105,15 @@ public class GUI implements Runnable {
         frame.getContentPane().add(BorderLayout.CENTER, board);
 
     }
+    public class ButtonClear implements ActionListener {
+        public void actionPerformed(ActionEvent ev) {
+            Clear CLEAR = new Clear(tab, boardSize, boardSize, board);
+            CLEAR.CLEAR();
+        }
+    }
+    private String Clear = "Clear";
 
-
+    public String getClear() {
+        return Clear;
+    }
 }
