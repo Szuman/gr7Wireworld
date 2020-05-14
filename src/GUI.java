@@ -33,7 +33,8 @@ public class GUI implements Runnable {
         JButton stepB = new JButton("Step");
         JButton clearB = new JButton(getClear());
         clearB.addActionListener(new ButtonClear());
-        JButton saveB = new JButton("Save");
+        JButton saveB = new JButton(SaveStart());
+        saveB.addActionListener(new GUI.ButtonSave());
         JButton loadB = new JButton("Load");
         JToggleButton playB = new JToggleButton("Play");
         JSlider fastS = new JSlider(JSlider.HORIZONTAL, 1, 700, 350);
@@ -104,6 +105,7 @@ public class GUI implements Runnable {
         frame.getContentPane().add(BorderLayout.SOUTH, optFilePanel);
         frame.getContentPane().add(BorderLayout.CENTER, board);
 
+
     }
     public class ButtonClear implements ActionListener {
         public void actionPerformed(ActionEvent ev) {
@@ -111,9 +113,20 @@ public class GUI implements Runnable {
             CLEAR.CLEAR();
         }
     }
+    public class ButtonSave implements ActionListener {
+        public void actionPerformed(ActionEvent ev) {
+            Save saveF = new Save(tab, boardSize, boardSize, board);
+            saveF.save();
+        }
+    }
     private String Clear = "Clear";
 
     public String getClear() {
         return Clear;
     }
+    private String saveGame = "Save";
+    public String SaveStart() {
+        return saveGame;
+    }
+
 }
