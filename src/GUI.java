@@ -7,6 +7,7 @@ public class GUI implements Runnable {
 
     JFrame frame;
     Board board;
+    Process process;
 
     final int boardSize = 50;
     final int pointSize = 10;
@@ -14,6 +15,7 @@ public class GUI implements Runnable {
     final int mouseButtonLeft = 1;
     final int mouseButtonRight = 3;
     final int frameSize = (boardSize + 1) * pointSize + 3;
+
 
     @Override
     public void run() {
@@ -31,10 +33,11 @@ public class GUI implements Runnable {
 
     public void options() {
         JButton stepB = new JButton("Step");
+        stepB.addActionListener(new ButtonStep());
         JButton clearB = new JButton(getClear());
         clearB.addActionListener(new ButtonClear());
         JButton saveB = new JButton(SaveStart());
-        saveB.addActionListener(new GUI.ButtonSave());
+        saveB.addActionListener(new ButtonSave());
         JButton loadB = new JButton("Load");
         JToggleButton playB = new JToggleButton("Play");
         JSlider fastS = new JSlider(JSlider.HORIZONTAL, 1, 700, 350);
@@ -107,6 +110,12 @@ public class GUI implements Runnable {
 
 
     }
+    public class ButtonStep implements ActionListener {
+        public void actionPerformed(ActionEvent ev) {
+            process = new Process(tab, boardSize, boardSize, board);
+            process.processOfWorld();
+        }
+    }
     public class ButtonClear implements ActionListener {
         public void actionPerformed(ActionEvent ev) {
             Clear CLEAR = new Clear(tab, boardSize, boardSize, board);
@@ -120,7 +129,6 @@ public class GUI implements Runnable {
         }
     }
     private String Clear = "Clear";
-
     public String getClear() {
         return Clear;
     }
