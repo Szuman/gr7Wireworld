@@ -1,7 +1,11 @@
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Hashtable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GUI implements Runnable {
 
@@ -9,13 +13,16 @@ public class GUI implements Runnable {
     Board board;
     Process process;
 
-    final int boardSize = 50;
+    final int boardSize = 60;
     final int pointSize = 10;
-    final int tab[][] = new int[boardSize][boardSize];
+    final int[][] tab = new int[boardSize][boardSize];
     final int mouseButtonLeft = 1;
     final int mouseButtonRight = 3;
     final int frameSize = (boardSize + 1) * pointSize + 3;
-
+    final int maxSpeed = 700;
+    String [] structures = {"Normal", "diodeLeft", "diodeRight"};
+    int Speed = 350;
+    private final JToggleButton playB = new JToggleButton("Play");
 
     @Override
     public void run() {
@@ -39,8 +46,9 @@ public class GUI implements Runnable {
         JButton saveB = new JButton(SaveStart());
         saveB.addActionListener(new ButtonSave());
         JButton loadB = new JButton("Load");
-        JToggleButton playB = new JToggleButton("Play");
-        JSlider fastS = new JSlider(JSlider.HORIZONTAL, 1, 700, 350);
+        JComboBox strBox = new JComboBox(structures);
+        JSlider fastS = new JSlider(JSlider.HORIZONTAL, 1, maxSpeed, 350);
+        playB.addItemListener(new ButtonPlay());
 
         Hashtable lTable = new Hashtable();
         lTable.put(50, new JLabel("Slow"));
@@ -48,10 +56,13 @@ public class GUI implements Runnable {
         fastS.setLabelTable(lTable);
         fastS.setPaintLabels(true);
 
-        if (playB.isSelected())
-            playB.setText("Stop");
-        else
-            playB.setText("Play");
+        fastS.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                JSlider source = (JSlider) e.getSource();
+                Speed = (maxSpeed+1)-source.getValue();
+            }
+        });
 
         JPanel controlPanel = new JPanel();
         controlPanel.add(stepB);
@@ -62,6 +73,8 @@ public class GUI implements Runnable {
         JPanel optFilePanel = new JPanel();
         optFilePanel.add(saveB);
         optFilePanel.add(loadB);
+        optFilePanel.add(strBox);
+
 
         board = new Board(tab, boardSize, boardSize, board, pointSize);
         board.setBackground(Color.white);
@@ -108,7 +121,24 @@ public class GUI implements Runnable {
         frame.getContentPane().add(BorderLayout.SOUTH, optFilePanel);
         frame.getContentPane().add(BorderLayout.CENTER, board);
 
+    }
 
+    Timer t;
+    public class ButtonPlay implements ItemListener {
+        public void itemStateChanged(ItemEvent e) {
+            playB.setText(playB.isSelected() ? "Stop" : "Play");
+            if (playB.isSelected()) {
+                t = new Timer();
+                t.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        process = new Process(tab, boardSize, boardSize, board);
+                        process.processOfWorld();
+                    }
+                }, 0, Speed);
+            }
+            else t.cancel();
+        }
     }
     public class ButtonStep implements ActionListener {
         public void actionPerformed(ActionEvent ev) {
@@ -128,11 +158,11 @@ public class GUI implements Runnable {
             saveF.save();
         }
     }
-    private String Clear = "Clear";
+    private final String Clear = "Clear";
     public String getClear() {
         return Clear;
     }
-    private String saveGame = "Save";
+    private final String saveGame = "Save";
     public String SaveStart() {
         return saveGame;
     }
