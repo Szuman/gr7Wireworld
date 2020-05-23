@@ -10,8 +10,13 @@ import java.util.TimerTask;
 public class GUI implements Runnable {
 
     JFrame frame;
+    JButton stepB, clearB, saveB, loadB;
+    JSlider fastS;
+    JComboBox strBox;
+
     Board board;
     Process process;
+    Diodes diode;
 
     final int boardSize = 60;
     final int pointSize = 10;
@@ -20,7 +25,7 @@ public class GUI implements Runnable {
     final int mouseButtonRight = 3;
     final int frameSize = (boardSize + 1) * pointSize + 3;
     final int maxSpeed = 700;
-    String [] structures = {"Normal", "diodeLeft", "diodeRight"};
+    String [] structures = {"Normal", "diodeLeft", "diodeRight", "diodeUp", "diodeDown"};
     int Speed = 350;
     private final JToggleButton playB = new JToggleButton("Play");
 
@@ -30,24 +35,26 @@ public class GUI implements Runnable {
         System.out.println(SwingUtilities.isEventDispatchThread());
     }
 
-    public void createGUI() {
+    private void createGUI() {
         frame = new JFrame("WireWorld");
         frame.setSize(frameSize + 3, frameSize + 105);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         options();
+        setupBoard();
         frame.setVisible(true);
         }
 
-    public void options() {
-        JButton stepB = new JButton("Step");
+
+    private void options() {
+        stepB = new JButton("Step");
         stepB.addActionListener(new ButtonStep());
-        JButton clearB = new JButton(getClear());
+        clearB = new JButton(getClear());
         clearB.addActionListener(new ButtonClear());
-        JButton saveB = new JButton(SaveStart());
+        saveB = new JButton(SaveStart());
         saveB.addActionListener(new ButtonSave());
-        JButton loadB = new JButton("Load");
-        JComboBox strBox = new JComboBox(structures);
-        JSlider fastS = new JSlider(JSlider.HORIZONTAL, 1, maxSpeed, 350);
+        loadB = new JButton("Load");
+        strBox = new JComboBox(structures);
+        fastS = new JSlider(JSlider.HORIZONTAL, 1, maxSpeed, 350);
         playB.addItemListener(new ButtonPlay());
 
         Hashtable lTable = new Hashtable();
@@ -76,8 +83,15 @@ public class GUI implements Runnable {
         optFilePanel.add(strBox);
 
 
+        frame.getContentPane().add(BorderLayout.NORTH ,controlPanel);
+        frame.getContentPane().add(BorderLayout.SOUTH, optFilePanel);
+
+    }
+
+    private void setupBoard() {
         board = new Board(tab, boardSize, boardSize, board, pointSize);
         board.setBackground(Color.white);
+        diode = new Diodes();
 
         board.addMouseListener(new MouseAdapter() {
             @Override
@@ -86,26 +100,32 @@ public class GUI implements Runnable {
                 int x = e.getX() / pointSize;
                 int y = e.getY() / pointSize;
                 if (e.getButton() == mouseButtonLeft) {
-                    if (tab[x][y] != 1) {
-                        tab[x][y] = 1;
-                            board.addMouseMotionListener(new MouseMotionAdapter() {
-                                @Override
-                                public void mouseDragged(MouseEvent e) {
-                                    super.mouseDragged(e);
-                                    int x = e.getX() / pointSize;
-                                    int y = e.getY() / pointSize;
-                                    try {
-                                        tab[x][y] = 1;
-                                        board.repaint();
-                                    } catch (ArrayIndexOutOfBoundsException ew) {
-                                        System.out.println("Out of board");
+                    switch (strBox.getSelectedIndex()) {
+                        case 1: diode.addDiodeLeft(tab, x, y); break;
+                        case 2: diode.addDiodeRight(tab, x, y); break;
+                        case 3: diode.addDiodeUp(tab, x, y); break;
+                        case 4: diode.addDiodeDown(tab, x, y); break;
+                        default:
+                            if (tab[x][y] != 1) {
+                                tab[x][y] = 1;
+                                board.addMouseMotionListener(new MouseMotionAdapter() {
+                                    @Override
+                                    public void mouseDragged(MouseEvent e) {
+                                        super.mouseDragged(e);
+                                        int x = e.getX() / pointSize;
+                                        int y = e.getY() / pointSize;
+                                        try {
+                                            tab[x][y] = 1;
+                                            board.repaint();
+                                        } catch (ArrayIndexOutOfBoundsException ew) {
+                                            System.out.println("Out of board");
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            } else
+                                tab[x][y] = 0;
                     }
-                    else
-                        tab[x][y] = 0;
-                    }
+                }
                 if (e.getButton() == mouseButtonRight) {
                     if (tab[x][y] != 2)
                         tab[x][y] = 2;
@@ -116,11 +136,7 @@ public class GUI implements Runnable {
             }
         });
 
-
-        frame.getContentPane().add(BorderLayout.NORTH ,controlPanel);
-        frame.getContentPane().add(BorderLayout.SOUTH, optFilePanel);
         frame.getContentPane().add(BorderLayout.CENTER, board);
-
     }
 
     Timer t;
