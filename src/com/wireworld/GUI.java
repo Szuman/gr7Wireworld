@@ -173,7 +173,7 @@ public class GUI implements Runnable {
     }
     public class ButtonSave implements ActionListener {
         public void actionPerformed(ActionEvent ev) {
-            Save saveF = new Save(tab, boardSize, boardSize, board);
+            Save saveF = new Save(tab, boardSize, boardSize);
             saveF.save();
         }
     }
