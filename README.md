@@ -1,5 +1,5 @@
 # gr7Wireworld
-WireWorld - 
+WireWorld -
 Implementacja automatów komórkowych opartych na Wireworld Briana Silvermana.
 Możliwości programu:
 - Stworzenie nowego układu
