@@ -1,3 +1,5 @@
+package com.wireworld;
+
 public class Clear {
     private int[][] tab;
     private int row;

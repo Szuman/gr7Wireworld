@@ -1,3 +1,5 @@
+package com.wireworld;
+
 import javax.swing.*;
 
 public class Main {

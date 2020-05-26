@@ -1,3 +1,5 @@
+package com.wireworld;
+
 public class Diodes {
     public void addDiodeRight(int [][]tab, int x, int y) {
         try {

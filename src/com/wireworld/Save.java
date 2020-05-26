@@ -1,5 +1,6 @@
+package com.wireworld;
+
 import javax.swing.*;
-import javax.swing.filechooser.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;

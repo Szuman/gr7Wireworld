@@ -1,3 +1,5 @@
+package com.wireworld;
+
 public class Process {
     private final int [][]tab;
     private final int row;
