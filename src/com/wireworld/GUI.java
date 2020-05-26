@@ -27,7 +27,7 @@ public class GUI implements Runnable {
     final int mouseButtonRight = 3;
     final int frameSize = (boardSize + 1) * pointSize + 3;
     final int maxSpeed = 700;
-    String [] structures = {"Normal", "diodeLeft", "diodeRight", "diodeUp", "diodeDown"};
+    String [] structures = {"Normal", "diodeLeft", "diodeRight", "diodeUp", "diodeDown", "OR", "AND", "XOR", "AND-NOT"};
     int Speed = 350;
     private final JToggleButton playB = new JToggleButton("Play");
 
@@ -108,6 +108,10 @@ public class GUI implements Runnable {
                         case 2: diode.addDiodeRight(tab, x, y); break;
                         case 3: diode.addDiodeUp(tab, x, y); break;
                         case 4: diode.addDiodeDown(tab, x, y); break;
+                        case 5: diode.addOR(tab, x, y); break;
+                        case 6: diode.addAND(tab, x, y); break;
+                        case 7: diode.addXOR(tab, x, y); break;
+                        case 8: diode.addANDNOT(tab, x, y); break;
                         default:
                             if (tab[x][y] != 1) {
                                 tab[x][y] = 1;
