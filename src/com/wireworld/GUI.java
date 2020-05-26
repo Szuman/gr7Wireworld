@@ -55,6 +55,7 @@ public class GUI implements Runnable {
         saveB = new JButton(SaveStart());
         saveB.addActionListener(new ButtonSave());
         loadB = new JButton("Load");
+        loadB.addActionListener(new ButtonLoad());
         strBox = new JComboBox(structures);
         fastS = new JSlider(JSlider.HORIZONTAL, 1, maxSpeed, 350);
         playB.addItemListener(new ButtonPlay());
@@ -176,6 +177,13 @@ public class GUI implements Runnable {
             saveF.save();
         }
     }
+    public class ButtonLoad implements ActionListener {
+        public void actionPerformed(ActionEvent ev) {
+            Load loadFile = new Load(tab, board);
+            loadFile.load();
+        }
+    }
+
     private final String Clear = "Clear";
     public String getClear() {
         return Clear;
@@ -183,6 +191,10 @@ public class GUI implements Runnable {
     private final String saveGame = "Save";
     public String SaveStart() {
         return saveGame;
+    }
+    private String loadGame = "Load";
+    public String LoadStart() {
+        return loadGame;
     }
 
 }
