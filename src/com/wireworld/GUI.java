@@ -41,6 +41,12 @@ public class GUI implements Runnable {
         frame = new JFrame("WireWorld");
         frame.setSize(frameSize + 3, frameSize + 105);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        try {
+            Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("heart.png"));
+            frame.setIconImage(icon);
+        } catch (Exception e) {
+            System.out.println("Can't find icon image - setting default icon");
+        }
         options();
         setupBoard();
         frame.setVisible(true);
@@ -50,9 +56,9 @@ public class GUI implements Runnable {
     private void options() {
         stepB = new JButton("Step");
         stepB.addActionListener(new ButtonStep());
-        clearB = new JButton(getClear());
+        clearB = new JButton("Clear");
         clearB.addActionListener(new ButtonClear());
-        saveB = new JButton(SaveStart());
+        saveB = new JButton("Save");
         saveB.addActionListener(new ButtonSave());
         loadB = new JButton("Load");
         loadB.addActionListener(new ButtonLoad());
@@ -92,7 +98,7 @@ public class GUI implements Runnable {
     }
 
     private void setupBoard() {
-        board = new Board(tab, boardSize, boardSize, board, pointSize);
+        board = new Board(tab, boardSize, boardSize, pointSize);
         board.setBackground(Color.white);
         diode = new Diodes();
 
@@ -187,18 +193,4 @@ public class GUI implements Runnable {
             loadFile.load();
         }
     }
-
-    private final String Clear = "Clear";
-    public String getClear() {
-        return Clear;
-    }
-    private final String saveGame = "Save";
-    public String SaveStart() {
-        return saveGame;
-    }
-    private String loadGame = "Load";
-    public String LoadStart() {
-        return loadGame;
-    }
-
 }

@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.io.File;
 
 public class Save extends Component {
-    private int[][] tab;
-    private int row;
-    private int coll;
+    private final int[][] tab;
+    private final int row;
+    private final int coll;
 
     public Save(int[][] tab, int row, int coll) {
         this.row = row;
@@ -29,32 +29,34 @@ public class Save extends Component {
         fc.showSaveDialog(this);
         File f = fc.getSelectedFile();
         try {
+            if (f == null)
+                System.out.println("Can't save!");
+            else {
             FileWriter fw = new FileWriter(f);
             for (int i = 0; i < row; i++) {
                 for (int j = 0; j < coll; j++) {
 
                     if ((tab[i][j]) == 1) {
-                        String text = "Yellow i=" + i + ", j=" + j + ";";
+                        String text = "Field x=" + i + ", y=" + j + ";";
                         fw.write(text);
                         fw.append('\n');
                         fw.flush();
                     }
                     if ((tab[i][j]) == 2) {
-                        String text = "Red i=" + i + ", j=" + j + ";";
+                        String text = "ElectronHead x=" + i + ", y=" + j + ";";
                         fw.write(text);
                         fw.append('\n');
                         fw.flush();
                     }
                     if ((tab[i][j]) == 3) {
-                        String text = "Blue i=" + i + ", j=" + j + ";";
+                        String text = "ElectronTail x=" + i + ", y=" + j + ";";
                         fw.write(text);
                         fw.append('\n');
                         fw.flush();
                     }
-
                 }
             }
-
+            }
         } catch (IOException e) {
             System.out.println("Error:" +e);
         }

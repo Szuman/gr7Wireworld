@@ -5,17 +5,15 @@ import java.awt.*;
 
 public class Board extends JPanel {
 
-    private int[][] tab;
-    private int row;
-    private int coll;
-    private Board boardPanel;
-    private int pointSize;
+    private final int[][] tab;
+    private final int row;
+    private final int coll;
+    private final int pointSize;
 
-    public Board(int [][] tab, int row, int coll, Board boardPanel, int pointSize) {
+    public Board(int [][] tab, int row, int coll, int pointSize) {
         this.row = row;
         this.coll = coll;
         this.tab = tab;
-        this.boardPanel = boardPanel;
         this.pointSize = pointSize;
     }
 
