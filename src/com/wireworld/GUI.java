@@ -5,9 +5,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Hashtable;
+import java.util.*;
+import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class GUI implements Runnable {
 
@@ -30,6 +30,7 @@ public class GUI implements Runnable {
     String [] structures = {"Normal", "diodeLeft", "diodeRight", "diodeUp", "diodeDown", "OR", "AND", "XOR", "AND-NOT"};
     int Speed = 350;
     private final JToggleButton playB = new JToggleButton("Play");
+    List<String> struct = new ArrayList<>();
 
     @Override
     public void run() {
@@ -110,14 +111,30 @@ public class GUI implements Runnable {
                 int y = e.getY() / pointSize;
                 if (e.getButton() == mouseButtonLeft) {
                     switch (strBox.getSelectedIndex()) {
-                        case 1: diode.addDiodeLeft(tab, x, y); break;
-                        case 2: diode.addDiodeRight(tab, x, y); break;
-                        case 3: diode.addDiodeUp(tab, x, y); break;
-                        case 4: diode.addDiodeDown(tab, x, y); break;
-                        case 5: diode.addOR(tab, x, y); break;
-                        case 6: diode.addAND(tab, x, y); break;
-                        case 7: diode.addXOR(tab, x, y); break;
-                        case 8: diode.addANDNOT(tab, x, y); break;
+                        case 1: diode.addDiodeLeft(tab, x, y);
+                                struct.add("DiodeLeft x=" + x + ", y=" + y +";");
+                        break;
+                        case 2: diode.addDiodeRight(tab, x, y);
+                                struct.add("DiodeRight x=" + x + ", y=" + y +";");
+                        break;
+                        case 3: diode.addDiodeUp(tab, x, y);
+                                struct.add("DiodeUp x=" + x + ", y=" + y +";");
+                        break;
+                        case 4: diode.addDiodeDown(tab, x, y);
+                                struct.add("DiodeDown x=" + x + ", y=" + y +";");
+                        break;
+                        case 5: diode.addOR(tab, x, y);
+                                struct.add("ORgate x=" + x + ", y=" + y +";");
+                        break;
+                        case 6: diode.addAND(tab, x, y);
+                                struct.add("ANDgate x=" + x + ", y=" + y +";");
+                        break;
+                        case 7: diode.addXOR(tab, x, y);
+                                struct.add("GateXOR x=" + x + ", y=" + y +";");
+                        break;
+                        case 8: diode.addANDNOT(tab, x, y);
+                                struct.add("ANDNOTgate x=" + x + ", y=" + y +";");
+                        break;
                         default:
                             if (tab[x][y] != 1) {
                                 tab[x][y] = 1;
@@ -179,17 +196,18 @@ public class GUI implements Runnable {
         public void actionPerformed(ActionEvent ev) {
             Clear CLEAR = new Clear(tab, boardSize, boardSize, board);
             CLEAR.CLEAR();
+            struct.clear();
         }
     }
     public class ButtonSave implements ActionListener {
         public void actionPerformed(ActionEvent ev) {
-            Save saveF = new Save(tab, boardSize, boardSize);
+            Save saveF = new Save(tab, boardSize, boardSize, struct);
             saveF.save();
         }
     }
     public class ButtonLoad implements ActionListener {
         public void actionPerformed(ActionEvent ev) {
-            Load loadFile = new Load(tab, board);
+            Load loadFile = new Load(tab, board, struct);
             loadFile.load();
         }
     }
