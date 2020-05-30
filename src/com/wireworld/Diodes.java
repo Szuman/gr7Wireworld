@@ -80,27 +80,26 @@ public class Diodes {
             tab[x + 2][y] = 1;
             tab[x + 3][y] = 1;
             tab[x + 4][y] = 1;
-            tab[x + 5][y] = 1;
-            tab[x + 6][y] = 1;
+            tab[x + 5][y - 1] = 1;
+            tab[x + 6][y - 1] = 1;
             tab[x + 7][y] = 1;
-            tab[x - 1][y] = 1;
-            tab[x][y + 1] = 1;
-            tab[x][y - 1] = 1;
-            tab[x - 1][y + 2] = 1;
-            tab[x - 1][y - 2] = 1;
-            tab[x - 2][y + 2] = 1;
-            tab[x - 2][y - 2] = 1;
-            tab[x - 3][y + 1] = 1;
-            tab[x - 3][y - 1] = 1;
-            tab[x - 4][y + 1] = 1;
-            tab[x - 4][y - 1] = 1;
-            tab[x - 5][y + 1] = 1;
-            tab[x - 5][y - 1] = 1;
-            tab[x - 6][y + 1] = 1;
-            tab[x - 6][y - 1] = 1;
-            tab[x - 7][y + 1] = 1;
-            tab[x - 7][y - 1] = 1;
-
+            tab[x + 6][y + 1] = 1;
+            tab[x + 7][y + 1] = 1;
+            tab[x + 8][y + 1] = 1;
+            tab[x + 9][y + 1] = 1;
+            tab[x + 10][y + 1] = 1;
+            tab[x + 11][y + 1] = 1;
+            tab[x +12][y + 1] = 1;
+            tab[x + 13][y + 1] = 1;
+            tab[x + 14][y + 1] = 1;
+            tab[x + 7][y + 2] = 1;
+            tab[x + 5][y + 3] = 1;
+            tab[x + 6][y + 3] = 1;
+            tab[x][y+2] = 1;
+            tab[x + 1][y+2] = 1;
+            tab[x + 2][y+2] = 1;
+            tab[x + 3][y+2] = 1;
+            tab[x + 4][y+2] = 1;
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Can't put it on board");
         }
