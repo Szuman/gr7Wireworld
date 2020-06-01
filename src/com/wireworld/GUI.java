@@ -51,6 +51,8 @@ public class GUI implements Runnable {
         options();
         setupBoard();
         frame.setVisible(true);
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
         }
 
 
