@@ -46,7 +46,7 @@ public class GUI implements Runnable {
             Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("heart.png"));
             frame.setIconImage(icon);
         } catch (Exception e) {
-            System.out.println("Can't find icon image - setting default icon");
+            System.out.println("Can't set/find icon image - setting default icon");
         }
         options();
         setupBoard();

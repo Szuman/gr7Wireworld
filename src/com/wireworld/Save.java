@@ -32,41 +32,38 @@ public class Save extends Component {
         fc.showSaveDialog(this);
         File f = fc.getSelectedFile();
         if (f == null)
-            System.out.println("Can't save null");
-        else {
-            try {
-                FileWriter fw = new FileWriter(f);
-                for (String s : structs) {
-                    fw.write(s);
-                    fw.append('\n');
-                    fw.flush();
-                }
-                for (int i = 0; i < row; i++) {
-                    for (int j = 0; j < coll; j++) {
-                        if ((tab[i][j]) == 2) {
-                            String text = "ElectronHead x=" + i + ", y=" + j + ";";
-                            fw.write(text);
-                            fw.append('\n');
-                            fw.flush();
-                        }
-                        if ((tab[i][j]) == 3) {
-                            String text = "ElectronTail x=" + i + ", y=" + j + ";";
-                            fw.write(text);
-                            fw.append('\n');
-                            fw.flush();
-                        }
-                        if ((tab[i][j]) == 1) {
-                            String text = "Field x=" + i + ", y=" + j + ";";
-                            fw.write(text);
-                            fw.append('\n');
-                            fw.flush();
-                        }
-                    }
-
-                }
-            } catch (IOException e) {
-                System.out.println("Error:" + e);
+            return;
+        try {
+            FileWriter fw = new FileWriter(f);
+            for (String s : structs) {
+                fw.write(s);
+                fw.append('\n');
+                fw.flush();
             }
+            for (int i = 0; i < row; i++) {
+                for (int j = 0; j < coll; j++) {
+                    if ((tab[i][j]) == 2) {
+                        String text = "ElectronHead x=" + i + ", y=" + j + ";";
+                        fw.write(text);
+                        fw.append('\n');
+                        fw.flush();
+                    }
+                    if ((tab[i][j]) == 3) {
+                        String text = "ElectronTail x=" + i + ", y=" + j + ";";
+                        fw.write(text);
+                        fw.append('\n');
+                        fw.flush();
+                    }
+                    if ((tab[i][j]) == 1) {
+                        String text = "Conductor x=" + i + ", y=" + j + ";";
+                        fw.write(text);
+                        fw.append('\n');
+                        fw.flush();
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error:" + e);
         }
     }
 }

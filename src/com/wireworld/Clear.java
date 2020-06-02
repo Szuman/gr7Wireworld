@@ -1,10 +1,10 @@
 package com.wireworld;
 
 public class Clear {
-    private int[][] tab;
-    private int row;
-    private int coll;
-    private Board boardPanel;
+    private final int[][] tab;
+    private final int row;
+    private final int coll;
+    private final Board boardPanel;
 
     public Clear(int[][] tab, int row, int coll, Board boardPanel) {
         this.tab = tab;
